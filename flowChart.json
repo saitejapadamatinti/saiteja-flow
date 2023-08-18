@@ -1,0 +1,109 @@
+{
+  "groups": [
+    {
+      "name": "VPC Subnet",
+      "icon": "aws-vpc",
+      "nodes": [
+        {
+          "name": "Main Server",
+          "type": "Server",
+          "icon": "aws-ec2",
+          "connections": ["Data"]
+        },
+        {
+          "name": "Compute Nodes",
+          "type": "Compute Nodes",
+          "nodes": [
+            {
+              "name": "Worker1",
+              "type": "Worker",
+              "icon": "aws-ec2"
+            },
+            {
+              "name": "Worker2",
+              "type": "Worker",
+              "icon": "aws-ec2"
+            },
+            {
+              "name": "Worker3",
+              "type": "Worker",
+              "icon": "aws-ec2"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "name": "API gateway",
+      "type": "API Gateway",
+      "icon": "aws-api-gateway",
+      "connections": ["Lambda"]
+    },
+    {
+      "name": "Lambda",
+      "type": "Lambda",
+      "icon": "aws-lambda",
+      "connections": ["Server"]
+    },
+    {
+      "name": "S3",
+      "type": "S3",
+      "icon": "aws-simple-storage-service",
+      "connections": ["Data"]
+    },
+    {
+      "name": "Data",
+      "type": "Data",
+      "icon": "aws-rds",
+      "connections": []
+    },
+    {
+      "name": "Queue",
+      "type": "Queue",
+      "icon": "aws-auto-scaling",
+      "connections": []
+    },
+    {
+      "name": "Analytics",
+      "type": "Analytics",
+      "icon": "aws-redshift",
+      "connections": []
+    }
+  ],
+  "connections": [
+    {
+      "source": "API gateway",
+      "target": "Lambda"
+    },
+    {
+      "source": "Lambda",
+      "target": "Server"
+    },
+    {
+      "source": "Server",
+      "target": "Queue"
+    },
+    {
+      "source": "Queue",
+      "target": "Worker1"
+    },
+    {
+      "source": "Queue",
+      "target": "Worker2"
+    },
+    {
+      "source": "Queue",
+      "target": "Worker3"
+    },
+    {
+      "source": "S3",
+      "target": "Data"
+    },
+    {
+      "source": "Compute Nodes",
+      "target": "Analytics"
+    }
+  ]
+}
